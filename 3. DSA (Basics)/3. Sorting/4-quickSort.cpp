@@ -79,12 +79,87 @@ int hoarePartition(int *arr, int low, int high, int partitionEleIndex) { // in t
   }
 }
 
-int quickSortLomutoPartition(int arr[], int size) {
-  
+int lomuto_partition(int *arr, int low, int high) {
+  int pivot = arr[high];
+  int i = low - 1;
+
+  for(int j = low; j < high; j++) {
+    if(arr[j] <= pivot) {
+      i++;
+      swap(arr[i], arr[j]);
+    }
+  }
+  swap(arr[i + 1], arr[high]);
+
+  return (i + 1);
 }
 
-int quickSortHoarePartition(int arr[], int size) {
+int quickSortLomutoPartition(int arr[], int low, int high) {
+    if (low < high) {
+        int partitionEleIndex = lomuto_partition(arr, low, high);
+        quickSortLomutoPartition(arr, low, partitionEleIndex - 1);
+        quickSortLomutoPartition(arr, partitionEleIndex + 1, high);
+    }
+}
 
+int hoare_partition(int *arr, int low, int high) {
+  int pivot = arr[low];
+  int i = low - 1, j = high + 1;
+
+  while(true) {
+    do{
+      i++;
+    } while(arr[i] < pivot);
+
+    do{
+      j--;
+    } while(arr[j] > pivot);
+
+    if(i >= j) return j;
+
+    swap(arr[i], arr[j]);
+  }
+}
+
+int quickSortHoarePartition(int arr[], int low, int high) {
+  if(low < high) {
+    int partitionEleIndex = hoare_partition(arr, low, high);
+    quickSortHoarePartition(arr, low, partitionEleIndex);
+    quickSortHoarePartition(arr, partitionEleIndex + 1, high);
+  }
+}
+
+int naive_partition(int *arr, int low, int high, int partitionEleIndex) {
+  int pivot = arr[partitionEleIndex];
+  int temp[high - low + 1];
+  int index = 0;
+
+  for(int i = low; i <= high; i++) {
+    if(arr[i] <= pivot && i != partitionEleIndex) {
+      temp[index++] = arr[i];
+    }
+  }
+
+  temp[index++] = pivot;
+
+  for(int i = low; i <= high; i++) {
+    if(arr[i] > pivot) {
+      temp[index++] = arr[i];
+    }
+  }
+
+  for(int i = low; i <= high; i++) {
+    arr[i] = temp[i - low];
+  }
+}
+
+int quickSortNaivePartition(int arr[], int low, int high) {
+  if(low < high) {
+    int partitionEleIndex = high;
+    int pivotIndex  = naive_partition(arr, low, high, partitionEleIndex);
+    quickSortHoarePartition(arr, low, pivotIndex - 1);
+    quickSortHoarePartition(arr, pivotIndex + 1, high);
+  }
 }
 
 int main() {
@@ -107,7 +182,7 @@ int main() {
   cout << "\n\n\nEnter Size of Array: ";
   cin >> size;
 
-  int arr1[size];
+  int arr1[size] = {0};
   for(int i = 0; i < size; i++) {
     cout << "Enter element " << i + 1 << " : ";
     cin >> arr1[i];
@@ -118,7 +193,7 @@ int main() {
     cout << arr1[i] << " ";
   }
 
-  quickSortLomutoPartition(arr1, size);
+  quickSortLomutoPartition(arr1, 0, size - 1);
 
   cout << "\nAfter Quick Sort Lomuto Partition: ";
   for(int i = 0; i < size; i++) {
@@ -127,14 +202,28 @@ int main() {
 
 
 
-  cout << "\n\nBefore Quick Sort Lomuto Partition: ";
+  cout << "\n\nBefore Quick Sort Hoare Partition: ";
   for(int i = 0; i < size; i++) {
     cout << arr1[i] << " ";
   }
 
-  quickSortHoarePartition(arr1, size);
+  quickSortHoarePartition(arr1, 0, size - 1);
 
-  cout << "\nAfter Quick Sort Lomuto Partition: ";
+  cout << "\nAfter Quick Sort Hoare Partition: ";
+  for(int i = 0; i < size; i++) {
+    cout << arr1[i] << " ";
+  }
+
+
+
+  cout << "\n\nBefore Quick Sort Naive Partition: ";
+  for(int i = 0; i < size; i++) {
+    cout << arr1[i] << " ";
+  }
+
+  quickSortNaivePartition(arr1, 0, size - 1);
+
+  cout << "\nAfter Quick Sort Naive Partition: ";
   for(int i = 0; i < size; i++) {
     cout << arr1[i] << " ";
   }
@@ -155,5 +244,7 @@ int main() {
   * Average Case: O(n Logn)
   * Tail Recursive
 * Partition is key function(Naive, Lomuto, Hoare Partition)
+
+* in quick sort if array is sorted or nearly sorted it goes to worst case so to avoid it we can pick a random pivot or mid element as pivot and swap pivot according to partition algo used 
 
 */
