@@ -71,4 +71,7 @@ int main() {
 * not stable
 * in place algo means does not require extra space for memory
 
+
+* Selection sort is a simple comparison-based sorting algorithm that works by dividing the input array into two parts: a sorted section and an unsorted section. It repeatedly selects the smallest (or largest, depending on the order) element from the unsorted section and swaps it with the first element of that section, effectively growing the sorted portion of the array. The process continues until the entire array is sorted. Although easy to understand and implement, selection sort is inefficient for large datasets, with a time complexity of O(n²), as it involves nested loops to find the minimum element repeatedly.
+
 */

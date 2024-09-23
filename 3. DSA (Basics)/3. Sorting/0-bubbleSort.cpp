@@ -56,4 +56,6 @@ ex: Input: [(4, 'A'), (3, 'B'), (4, 'C')]
     Output: [(3, 'B'), (4, 'C'), (4, 'A')]
 ex: Quick Sort (in most implementations), Heap Sort, Selection Sort.
 
+* Bubble Sort is a simple sorting algorithm that repeatedly steps through an array, comparing adjacent elements and swapping them if they are in the wrong order. It starts at the beginning of the array and makes passes through it, with each pass moving the largest unsorted element to its correct position at the end. The process continues, reducing the range of comparisons each time, until no swaps are needed, indicating that the array is sorted. While easy to understand and implement, Bubble Sort has a time complexity of O(n²) in the worst case, making it inefficient for large datasets.
+
 */
